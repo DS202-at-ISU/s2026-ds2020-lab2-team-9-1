@@ -103,6 +103,7 @@ Variables:
 
 ## Step 2
 
+We picked Sale Price as the main variable
 
 ## Step 3
 
@@ -114,9 +115,9 @@ Max : 20500000
 
 ```{r}
 library(ggplot2)
-ggplot(data = ames, mapping = aes(x = `Sale Price`)) + geom_bar()
+ggplot(ames, aes(x = `Sale Price`)) + geom_histogram(bins = 50) + scale_x_log10()
 ```
-
+The histogram is scaled in the above figure
 
 ## Step 4
 
