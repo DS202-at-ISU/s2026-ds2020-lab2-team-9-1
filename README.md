@@ -168,4 +168,48 @@ to the general range and prices in the data.
 
 ## Step 4
 
-Praneet: Acres Nikhil: Occupancy Sravya: Year Built Alina: Style
+Praneet: Acres
+
+- Nikhil: TotalLivingArea
+
+``` r
+range(ames$`TotalLivingArea (sf)`, na.rm = TRUE)
+```
+
+    ## [1]    0 6007
+
+``` r
+summary(ames$`TotalLivingArea (sf)`)
+```
+
+    ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+    ##       0    1095    1460    1507    1792    6007     447
+
+``` r
+ggplot(ames, aes(x = `TotalLivingArea (sf)`)) +geom_histogram(bins = 30)
+```
+
+    ## Warning: Removed 447 rows containing non-finite outside the scale range
+    ## (`stat_bin()`).
+
+![](README_files/figure-gfm/unnamed-chunk-8-1.png)<!-- --> This is the
+histogram of the same
+
+``` r
+ggplot(ames, aes(x = `TotalLivingArea (sf)`, y = `Sale Price`)) + geom_point(alpha = 0.4)
+```
+
+    ## Warning: Removed 447 rows containing missing values or values outside the scale range
+    ## (`geom_point()`).
+
+![](README_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
+
+The scatterplot shows the relationship bw the 2 variables. This appears
+to be a positive relationship, meaning higher price would genrally infer
+a larger area. However it should be noted that there are some extreme
+outliers in this data which skew it a little as evidenced in the top
+most and right most areas of the above graph
+
+Sravya: Year Built
+
+Alina: Style
