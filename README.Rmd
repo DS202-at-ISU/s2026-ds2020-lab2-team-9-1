@@ -17,3 +17,48 @@ Include your answers in this document (Rmd file). Make sure that it knits proper
 
 All submissions to the github repo will be automatically uploaded for grading once the due date is passed.
 Submit a link to your repository on Canvas (only one submission per team) to signal to the instructors that you are done with your submission.
+
+```{r}
+install.packages("remotes")
+library(remotes)
+remotes::install_github("heike/classdata")
+library('classdata')
+data("ames")
+```
+
+## Step 1
+
+```{r}
+head(ames)
+```
+
+
+```{r}
+str(ames)
+```
+
+Variables: 
+Parcel ID (chr): ID of the unit, Range: ID can be random so no real range
+Address (chr): Address of the unit, Range: No real range
+Style (Factor): Style of the unit, Range: No real range
+Occupancy (Factor) : Type of occupancy, Range: No real range
+Sale Date (Date) : When unit was put up for sale, Range : Can be any date
+Sale Price (num) : Price of the unit, Range: Approximate Numerical range (50000 - 1000000)
+Multi Sale (chr) : NA 
+YearBuilt (num) : Year the unit was built Approximate Numerical range (1800 - 2026)
+Acres (num) : Acres of the unit, Range: Approximate Numerical range (0.1 - 0.9)
+TotalLivingArea (num): Living area, Range: Approximate Numerical range (500 - 2000)
+Bedrooms (num) : Number of bedrooms, Range: Approximate Numerical range (1 - 6)
+FinishedBsmtArea (num) : Basement area, Range Approximate Numerical range (400 - 1200)
+LotArea (num) : Area of the lot : Range : Approximate Numerical range (2000 - 16000)
+AC (chr): Does the unit have AC?, Range : Yes or no
+FirePlace (chr) : Does the unit have a Fireplace?, Range : Yes or no
+Neighborhood (Factor): What is the neighborhood, Range : Yes or no
+
+## Step 2
+## Step 3
+## Step 4
+
+
+
+
