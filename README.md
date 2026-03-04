@@ -139,6 +139,15 @@ Min : 0 Max : 20500000
 
 ``` r
 library(ggplot2)
+ggplot(ames, aes(x = `Sale Price`)) + geom_histogram(bins = 50) 
+```
+
+![](README_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
+
+Plot without scaling
+
+``` r
+library(ggplot2)
 ggplot(ames, aes(x = `Sale Price`)) + geom_histogram(bins = 50) + scale_x_log10()
 ```
 
@@ -147,6 +156,16 @@ ggplot(ames, aes(x = `Sale Price`)) + geom_histogram(bins = 50) + scale_x_log10(
     ## Warning: Removed 2206 rows containing non-finite outside the scale range
     ## (`stat_bin()`).
 
-![](README_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-6-1.png)<!-- --> The histogram
+is scaled in the above figure
+
+The histogram shows that most houses are sold in the lower price ranges,
+while very few houses are sold at very high prices. This has resulted in
+a skewed distribution, where a majority of the houses are priced at.
+
+Some unusual is that there are some extremely high prices when compared
+to the general range and prices in the data.
 
 ## Step 4
+
+Praneet: Acres Nikhil: Occupancy Sravya: Year Built Alina: Style
