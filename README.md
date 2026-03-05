@@ -61,6 +61,10 @@ head(ames)
     ## 6       Yes   (37) Res: College Creek
 
 ``` r
+View(ames)
+```
+
+``` r
 str(ames)
 ```
 
@@ -84,48 +88,50 @@ str(ames)
 
 Variables:
 
-Parcel ID (chr): ID of the unit Range: ID can be random so no real range
+- Parcel ID (chr): ID of the unit Range: ID can be random so no real
+  range
 
-Address (chr): Address of the unit Range: No real range
+- Address (chr): Address of the unit Range: No real range
 
-Style (Factor): Style of the unit Range: No real range
+- Style (Factor): Style of the unit Range: No real range
 
-Occupancy (Factor): Type of occupancy Range: No real range
+- Occupancy (Factor): Type of occupancy Range: No real range
 
-Sale Date (Date): When unit was put up for sale Range: Can be any date
+- Sale Date (Date): When unit was put up for sale Range: Can be any date
 
-Sale Price (num): Price of the unit Range: Approximate Numerical range
-(50000 - Any Price)
+- Sale Price (num): Price of the unit Range: Approximate Numerical range
+  (50000 - Any Price)
 
-Multi Sale (chr): NA
+- Multi Sale (chr): NA
 
-YearBuilt (num): Year the unit was built Range: Approximate Numerical
-range (1800 - 2026)
+- YearBuilt (num): Year the unit was built Range: Approximate Numerical
+  range (1800 - 2026)
 
-Acres (num): Acres of the unit Range: Approximate Numerical range (0.1 -
-0.9)
+- Acres (num): Acres of the unit Range: Approximate Numerical range
+  (0.1 - 0.9)
 
-TotalLivingArea (num): Living area Range: Approximate Numerical range
-(500 - 2000)
+- TotalLivingArea (num): Living area Range: Approximate Numerical range
+  (500 - 2000)
 
-Bedrooms (num): Number of bedrooms Range: Approximate Numerical range
-(1 - 6)
+- Bedrooms (num): Number of bedrooms Range: Approximate Numerical range
+  (1 - 6)
 
-FinishedBsmtArea (num): Basement area Range Approximate Numerical range
-(400 - 1200)
+- FinishedBsmtArea (num): Basement area Range Approximate Numerical
+  range (400 - 1200)
 
-LotArea (num): Area of the lot Range: Approximate Numerical range
-(2000 - 16000)
+- LotArea (num): Area of the lot Range: Approximate Numerical range
+  (2000 - 16000)
 
-AC (chr): Does the unit have AC? Range : Yes or no
+- AC (chr): Does the unit have AC? Range : Yes or no
 
-FirePlace (chr): Does the unit have a Fireplace? Range : Yes or no
+- FirePlace (chr): Does the unit have a Fireplace? Range : Yes or no
 
-Neighborhood (Factor): What is the neighborhood Range : Yes or no
+- Neighborhood (Factor): What is the neighborhood Range : Yes or no
 
 ## Step 2
 
-We picked Sale Price as the main variable
+We picked **Sale Price** as the main variable, due to its wide range and
+approximation to an easily understandable unit of dollars.
 
 ## Step 3
 
@@ -139,16 +145,19 @@ Min : 0 Max : 20500000
 
 ``` r
 library(ggplot2)
-ggplot(ames, aes(x = `Sale Price`)) + geom_histogram(bins = 50) 
+ames |> ggplot(aes(x = `Sale Price`)) + 
+  geom_histogram(bins = 50) +
+  ggtitle("Nonscaled Histogram of Sales Price (50 Bins)")
 ```
 
 ![](README_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
 
-Plot without scaling
-
 ``` r
 library(ggplot2)
-ggplot(ames, aes(x = `Sale Price`)) + geom_histogram(bins = 50) + scale_x_log10()
+ames |> ggplot(aes(x = `Sale Price`)) + 
+  geom_histogram(bins = 50) + 
+  scale_x_log10() +
+  ggtitle("Log-Scaled Histogram of Sales Price (50 Bins)")
 ```
 
     ## Warning in scale_x_log10(): log-10 transformation introduced infinite values.
@@ -156,8 +165,7 @@ ggplot(ames, aes(x = `Sale Price`)) + geom_histogram(bins = 50) + scale_x_log10(
     ## Warning: Removed 2206 rows containing non-finite outside the scale range
     ## (`stat_bin()`).
 
-![](README_files/figure-gfm/unnamed-chunk-6-1.png)<!-- --> The histogram
-is scaled in the above figure
+![](README_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
 
 The histogram shows that most houses are sold in the lower price ranges,
 while very few houses are sold at very high prices. This has resulted in
@@ -166,11 +174,14 @@ a skewed distribution, where a majority of the houses are priced at.
 Some unusual is that there are some extremely high prices when compared
 to the general range and prices in the data.
 
+Some other anomalous behavior includes unexpectedly low numbers or 0s
+for sales price, which surely will have impact on further analysis.
+
 ## Step 4
 
-Praneet: Acres
+#### Acres (Praneet)
 
-- Nikhil: TotalLivingArea
+#### Total Living Area (Nikhil)
 
 ``` r
 range(ames$`TotalLivingArea (sf)`, na.rm = TRUE)
@@ -192,8 +203,9 @@ ggplot(ames, aes(x = `TotalLivingArea (sf)`)) +geom_histogram(bins = 30)
     ## Warning: Removed 447 rows containing non-finite outside the scale range
     ## (`stat_bin()`).
 
-![](README_files/figure-gfm/unnamed-chunk-8-1.png)<!-- --> This is the
-histogram of the same
+![](README_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
+
+This is the histogram of the same
 
 ``` r
 ggplot(ames, aes(x = `TotalLivingArea (sf)`, y = `Sale Price`)) + geom_point(alpha = 0.4)
@@ -210,6 +222,40 @@ a larger area. However it should be noted that there are some extreme
 outliers in this data which skew it a little as evidenced in the top
 most and right most areas of the above graph
 
-Sravya: Year Built
+#### Year Built (Sravya)
 
-Alina: Style
+#### Style (Alina)
+
+#### Sale Date (Noam)
+
+``` r
+range(ames$`Sale Date`)
+```
+
+    ## [1] "2017-07-03" "2022-08-31"
+
+``` r
+ames |> ggplot(aes(x = `Sale Date`)) + 
+  geom_histogram(bins = 150) + 
+  ggtitle("Nonscaled Histogram of Sale Date (50 Bins)")
+```
+
+![](README_files/figure-gfm/unnamed-chunk-10-1.png)<!-- --> Range of
+about 5 years, starting mid 2017 to late 2022, Gaps in Q3/4 2019 and
+2020. Mostly consistent, with a few dates representing outliers.
+
+``` r
+ames |> 
+  ggplot(aes(x = `Sale Date`, y = `Sale Price`,)) +
+  geom_point(alpha = .75, na.rm = TRUE) +
+  coord_cartesian(ylim =  c(0, 2000000)) +
+  ggtitle("Nonscaled Scatterplot of Sale Date & Sale Price (Lim $2m)")
+```
+
+![](README_files/figure-gfm/unnamed-chunk-11-1.png)<!-- --> There isn’t
+any great trend to be spotted here, or even a consistent general rise in
+price over time which may be expected in more extreme economic
+circumstances. Generally, we are seeing an increase of the ceiling of
+price per week/month within each year, though the majority stay in the
+\>\$50,000 range. There are also many 0s (or roundable 0s) which are
+easily spotted here and as mentioned in part 3.
