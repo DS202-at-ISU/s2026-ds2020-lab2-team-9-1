@@ -39,7 +39,6 @@ data("ames")
 
 ```{r}
 head(ames)
-#View(ames)
 ```
 
 ```{r}
@@ -129,6 +128,7 @@ Some other anomalous behavior includes unexpectedly low numbers or 0s for sales 
 ## Step 4
 
 #### Acres (Praneet)
+
 ```{r}
 range(ames$Acres, na.rm = TRUE)
 summary(ames$Acres, na.rm = TRUE)

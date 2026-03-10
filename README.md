@@ -61,10 +61,6 @@ head(ames)
     ## 6       Yes   (37) Res: College Creek
 
 ``` r
-#View(ames)
-```
-
-``` r
 str(ames)
 ```
 
