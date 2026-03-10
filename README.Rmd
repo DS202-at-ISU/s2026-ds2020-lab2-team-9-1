@@ -1,9 +1,11 @@
 ---
 output: github_document
+editor_options: 
+  markdown: 
+    wrap: 72
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit the README.Rmd file -->
-
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -11,12 +13,19 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Lab report #1
 
-Follow the instructions posted at https://ds202-at-isu.github.io/labs.html for the lab assignment. The work is meant to be finished during the lab time, but you have time until Monday evening to polish things.
+Follow the instructions posted at
+<https://ds202-at-isu.github.io/labs.html> for the lab assignment. The
+work is meant to be finished during the lab time, but you have time
+until Monday evening to polish things.
 
-Include your answers in this document (Rmd file). Make sure that it knits properly (into the md file). Upload both the Rmd and the md file to your repository.  
+Include your answers in this document (Rmd file). Make sure that it
+knits properly (into the md file). Upload both the Rmd and the md file
+to your repository.
 
-All submissions to the github repo will be automatically uploaded for grading once the due date is passed.
-Submit a link to your repository on Canvas (only one submission per team) to signal to the instructors that you are done with your submission.
+All submissions to the github repo will be automatically uploaded for
+grading once the due date is passed. Submit a link to your repository on
+Canvas (only one submission per team) to signal to the instructors that
+you are done with your submission.
 
 ```{r}
 # install.packages("remotes")
@@ -30,96 +39,175 @@ data("ames")
 
 ```{r}
 head(ames)
+#View(ames)
 ```
-
 
 ```{r}
 str(ames)
 ```
 
-Variables: 
+Variables:
 
-  Parcel ID (chr): 
-    ID of the unit
-    Range: ID can be random so no real range
-  
-  Address (chr):
-    Address of the unit
-    Range: No real range
-  
-  Style (Factor): 
-    Style of the unit
-    Range: No real range
-  
-  Occupancy (Factor):
-    Type of occupancy
-    Range: No real range
+-   Parcel ID (chr): ID of the unit Range: ID can be random so no real
+    range
 
-  Sale Date (Date):
-    When unit was put up for sale
-    Range: Can be any date
-  
-  Sale Price (num): 
-    Price of the unit
-    Range: Approximate Numerical range (50000 - Any Price)
-    
-  Multi Sale (chr): NA 
+-   Address (chr): Address of the unit Range: No real range
 
-  YearBuilt (num): 
-    Year the unit was built 
-    Range: Approximate Numerical range (1800 - 2026)
-  
-  Acres (num): 
-    Acres of the unit
-    Range: Approximate Numerical range (0.1 - 0.9)
+-   Style (Factor): Style of the unit Range: No real range
 
-  TotalLivingArea (num): 
-    Living area
-    Range: Approximate Numerical range (500 - 2000)
+-   Occupancy (Factor): Type of occupancy Range: No real range
 
-  Bedrooms (num): 
-    Number of bedrooms
-    Range: Approximate Numerical range (1 - 6)
-    
-  FinishedBsmtArea (num):
-    Basement area
-    Range Approximate Numerical range (400 - 1200)
-    
-  LotArea (num): 
-    Area of the lot 
-    Range: Approximate Numerical range (2000 - 16000)
+-   Sale Date (Date): When unit was put up for sale Range: Can be any
+    date
 
-  AC (chr): 
-    Does the unit have AC?
-    Range : Yes or no
-  
-  FirePlace (chr): 
-    Does the unit have a Fireplace?
-    Range : Yes or no
+-   Sale Price (num): Price of the unit Range: Approximate Numerical
+    range (50000 - Any Price)
 
-  Neighborhood (Factor):
-    What is the neighborhood
-    Range : Yes or no
+-   Multi Sale (chr): NA
+
+-   YearBuilt (num): Year the unit was built Range: Approximate
+    Numerical range (1800 - 2026)
+
+-   Acres (num): Acres of the unit Range: Approximate Numerical range
+    (0.1 - 0.9)
+
+-   TotalLivingArea (num): Living area Range: Approximate Numerical
+    range (500 - 2000)
+
+-   Bedrooms (num): Number of bedrooms Range: Approximate Numerical
+    range (1 - 6)
+
+-   FinishedBsmtArea (num): Basement area Range Approximate Numerical
+    range (400 - 1200)
+
+-   LotArea (num): Area of the lot Range: Approximate Numerical range
+    (2000 - 16000)
+
+-   AC (chr): Does the unit have AC? Range : Yes or no
+
+-   FirePlace (chr): Does the unit have a Fireplace? Range : Yes or no
+
+-   Neighborhood (Factor): What is the neighborhood Range : Yes or no
 
 ## Step 2
 
+We picked **Sale Price** as the main variable, due to its wide range and
+approximation to an easily understandable unit of dollars.
 
 ## Step 3
 
 ```{r}
 range(ames$`Sale Price`, na.rm = TRUE)
 ```
-Min : 0
-Max : 20500000
+
+Min : 0 Max : 20500000
 
 ```{r}
 library(ggplot2)
-ggplot(data = ames, mapping = aes(x = `Sale Price`)) + geom_bar()
+ames |> ggplot(aes(x = `Sale Price`)) + 
+  geom_histogram(bins = 50) +
+  ggtitle("Nonscaled Histogram of Sales Price (50 Bins)")
 ```
 
+```{r}
+library(ggplot2)
+ames |> ggplot(aes(x = `Sale Price`)) + 
+  geom_histogram(bins = 50) + 
+  scale_x_log10() +
+  ggtitle("Log-Scaled Histogram of Sales Price (50 Bins)")
+```
+
+The histogram shows that most houses are sold in the lower price ranges,
+while very few houses are sold at very high prices. This has resulted in
+a skewed distribution, where a majority of the houses are priced at.
+
+Some unusual is that there are some extremely high prices when compared
+to the general range and prices in the data.
+
+Some other anomalous behavior includes unexpectedly low numbers or 0s for sales price, which surely will have impact on further analysis.
 
 ## Step 4
 
+#### Acres (Praneet)
+```{r}
+range(ames$Acres, na.rm = TRUE)
+summary(ames$Acres, na.rm = TRUE)
+```
+```{r}
+ggplot(ames, aes(x = Acres)) + geom_histogram(bins = 15)
+```
+This is a right skewed distribution. Most of the data is concentrated
+from 0 to 1, outliers at around 8 and 12 acres. Majority of the observations 
+have very small amount of acres.
 
+```{r}
+ggplot(ames, aes(x = Acres, y = ames$`Sale Price`)) + geom_point(alpha = 0.4)
+```
 
+The scatterplot shows the relationship between 2 variables, Acres and Sale Price. 
+There is no clear positive relationship between the 2 variables. Points are concentrated
+at around 0-1 acres. This is a weak correlation. Data is very cluttered at the bottom left
+corner.
 
+#### Total Living Area (Nikhil)
+
+```{r}
+range(ames$`TotalLivingArea (sf)`, na.rm = TRUE)
+summary(ames$`TotalLivingArea (sf)`)
+```
+
+```{r}
+ggplot(ames, aes(x = `TotalLivingArea (sf)`)) +geom_histogram(bins = 30)
+```
+
+This is the histogram of the same
+
+```{r}
+ggplot(ames, aes(x = `TotalLivingArea (sf)`, y = `Sale Price`)) + geom_point(alpha = 0.4)
+```
+
+The scatterplot shows the relationship bw the 2 variables. This appears
+to be a positive relationship, meaning higher price would genrally infer
+a larger area. However it should be noted that there are some extreme
+outliers in this data which skew it a little as evidenced in the top
+most and right most areas of the above graph
+
+#### Year Built (Sravya)
+```{r}
+library(classdata)
+library(ggplot2)
+
+data(ames)
+
+ggplot(subset(ames, `YearBuilt` > 1800),
+       aes(x = `YearBuilt`, y = `Sale Price`)) +
+  geom_point(alpha = 0.5) +
+  labs(
+    title = "Sale Price vs Year Built",
+    x = "Year Built",
+    y = "Sale Price ($)"
+  )
+```
+
+The variable Year Built ranges from about 1870 to around 2020 after removing the invalid value of 0. The scatterplot of Sale Price vs Year Built shows a slight positive relationship, meaning that houses built more recently tend to have higher sale prices. Most homes are concentrated between about 1950 and 2010 with moderate prices. However, there are a few clear outliers where houses built around the early 2000s have extremely high sale prices compared to the rest. These outliers help explain some of the unusually high values that appeared in the histogram of Sale Price in Step 3.
+
+#### Style (Alina)
+
+#### Sale Date (Noam)
+
+``` {r}
+range(ames$`Sale Date`)
+
+ames |> ggplot(aes(x = `Sale Date`)) + 
+  geom_histogram(bins = 150) + 
+  ggtitle("Nonscaled Histogram of Sale Date (50 Bins)")
+```
+Range of about 5 years, starting mid 2017 to late 2022, Gaps in Q3/4 2019 and 2020. Mostly consistent, with a few dates representing outliers.
+``` {r}
+ames |> 
+  ggplot(aes(x = `Sale Date`, y = `Sale Price`,)) +
+  geom_point(alpha = .75, na.rm = TRUE) +
+  coord_cartesian(ylim =  c(0, 2000000)) +
+  ggtitle("Nonscaled Scatterplot of Sale Date & Sale Price (Lim $2m)")
+```
+There isn't any great trend to be spotted here, or even a consistent general rise in price over time which may be expected in more extreme economic circumstances. Generally, we are seeing an increase of the ceiling of price per week/month within each year, though the majority stay in the >$50,000 range. There are also many 0s (or roundable 0s) which are easily spotted here and as mentioned in part 3.
